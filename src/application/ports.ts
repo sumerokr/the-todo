@@ -7,3 +7,7 @@ export interface ApiService {
 export interface StoreService {
   create: (todo: Todo) => void;
 }
+
+export interface NotificationService {
+  notify: (message: string) => void;
+}
