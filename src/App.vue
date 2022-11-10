@@ -1,53 +1,32 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+import { ref } from "vue";
+import { createTodo } from "./application/create-todo";
+import { readTodos } from "./application/read-todo";
+import { todos } from "./services/store-service";
+
+readTodos();
+
+const title = ref("");
+
+const onSubmit = () => {
+  createTodo({ title: title.value });
+  title.value = "";
+};
 </script>
 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
+  <div>
+    <form @submit.prevent="onSubmit">
+      <input v-model="title" type="text" />
+      <button type="submit">add</button>
+    </form>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <ul v-if="todos.length">
+      <li v-for="todo of todos" :key="todo.id">{{ todo.title }}</li>
+    </ul>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <p v-else>Loading...</p>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
