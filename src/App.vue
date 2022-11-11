@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { createTodo } from "./application/create-todo";
-import { readTodos } from "./application/read-todo";
-import { todos } from "./services/store-service";
+import { useCreateTodo } from "./composables/use-create-todo";
+import { useReadTodos } from "./composables/use-read-todos";
 
+const { todos, status: readTodosStatus, readTodos } = useReadTodos();
 readTodos();
+
+const { status: createTodoStatus, createTodo } = useCreateTodo();
 
 const title = ref("");
 
@@ -18,14 +20,16 @@ const onSubmit = () => {
   <div>
     <form @submit.prevent="onSubmit">
       <input v-model="title" type="text" />
-      <button type="submit">add</button>
+      <button type="submit" :disabled="createTodoStatus === 'pending'">
+        add
+      </button>
     </form>
 
-    <ul v-if="todos.length">
+    <ul v-if="readTodosStatus === 'success' && todos.length">
       <li v-for="todo of todos" :key="todo.id">{{ todo.title }}</li>
     </ul>
 
-    <p v-else>Loading...</p>
+    <p v-else-if="readTodosStatus === 'pending'">Pending...</p>
   </div>
 </template>
 
