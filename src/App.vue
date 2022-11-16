@@ -3,10 +3,19 @@ import { ref } from "vue";
 import { useCreateTodo } from "./composables/use-create-todo";
 import { useReadTodos } from "./composables/use-read-todos";
 
-const { todos, status: readTodosStatus, readTodos } = useReadTodos();
+const {
+  todos,
+  isReady: isReadTodosReady,
+  isLoading: isReadTodosLoading,
+  execute: readTodos,
+} = useReadTodos();
 readTodos();
 
-const { status: createTodoStatus, createTodo } = useCreateTodo();
+const {
+  isReady: isCreateTodoReady,
+  isLoading: isCreateTodoLoading,
+  execute: createTodo,
+} = useCreateTodo();
 
 const title = ref("");
 
@@ -20,16 +29,14 @@ const onSubmit = () => {
   <div>
     <form @submit.prevent="onSubmit">
       <input v-model="title" type="text" />
-      <button type="submit" :disabled="createTodoStatus === 'pending'">
-        add
-      </button>
+      <button type="submit" :disabled="isCreateTodoLoading">add</button>
     </form>
 
-    <ul v-if="readTodosStatus === 'success' && todos.length">
+    <ul v-if="isReadTodosReady && todos.length">
       <li v-for="todo of todos" :key="todo.id">{{ todo.title }}</li>
     </ul>
 
-    <p v-else-if="readTodosStatus === 'pending'">Pending...</p>
+    <p v-else-if="isReadTodosLoading">Pending...</p>
   </div>
 </template>
 

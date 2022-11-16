@@ -1,16 +1,13 @@
-import { ref } from "vue";
-import { createTodo as _createTodo } from "@/application/create-todo";
-
-const status = ref("idle");
-const createTodo = async (options: Parameters<typeof _createTodo>[0]) => {
-  status.value = "pending";
-  await _createTodo(options);
-  status.value = "success";
-};
+import { useAsyncState } from "@vueuse/core";
+import { createTodo } from "@/application/create-todo";
 
 export const useCreateTodo = () => {
+  const { isReady, isLoading, execute } = useAsyncState(createTodo, null, {
+    immediate: false,
+  });
   return {
-    createTodo,
-    status,
+    isReady,
+    isLoading,
+    execute: (...args: Parameters<typeof createTodo>) => execute(0, ...args),
   };
 };

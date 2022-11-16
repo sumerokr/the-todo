@@ -1,18 +1,15 @@
-import { ref } from "vue";
-import { readTodos as _readTodos } from "@/application/read-todos";
+import { useAsyncState } from "@vueuse/core";
+import { readTodos } from "@/application/read-todos";
 import { todos } from "@/services/store-service";
 
-const status = ref("idle");
-const readTodos = async () => {
-  status.value = "pending";
-  await _readTodos();
-  status.value = "success";
-};
-
 export const useReadTodos = () => {
+  const { isReady, isLoading, execute } = useAsyncState(readTodos, null, {
+    immediate: false,
+  });
   return {
     todos,
-    readTodos,
-    status,
+    isReady,
+    isLoading,
+    execute,
   };
 };
