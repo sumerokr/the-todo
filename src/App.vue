@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import type { Ref } from "vue";
 import { useCreateTodo } from "./composables/use-create-todo";
 import { useReadTodos } from "./composables/use-read-todos";
+import { useDeleteTodo } from "./composables/use-delete-todo";
+import type { Todo } from "./domain/Todo";
 
 const {
   todos,
@@ -11,17 +14,20 @@ const {
 } = useReadTodos();
 readTodos();
 
-const {
-  isReady: isCreateTodoReady,
-  isLoading: isCreateTodoLoading,
-  execute: createTodo,
-} = useCreateTodo();
+const { isLoading: isCreateTodoLoading, execute: createTodo } = useCreateTodo();
+
+const { execute: deleteTodo, deletingIds } = useDeleteTodo();
 
 const title = ref("");
 
 const onSubmit = () => {
   createTodo({ title: title.value });
   title.value = "";
+};
+
+const onDelete = (todo: Todo) => {
+  console.log("onDelete todo", todo);
+  deleteTodo(todo);
 };
 </script>
 
@@ -33,7 +39,12 @@ const onSubmit = () => {
     </form>
 
     <ul v-if="isReadTodosReady && todos.length">
-      <li v-for="todo of todos" :key="todo.id">{{ todo.title }}</li>
+      <li v-for="todo of todos" :key="todo.id">
+        {{ todo.title }}
+        <button :disabled="deletingIds.includes(todo)" @click="onDelete(todo)">
+          ✕
+        </button>
+      </li>
     </ul>
 
     <p v-else-if="isReadTodosLoading">Pending...</p>

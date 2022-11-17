@@ -1,5 +1,6 @@
 import { useAsyncState } from "@vueuse/core";
 import { createTodo } from "@/application/create-todo";
+import type { DraftTodo } from "../domain/Todo";
 
 export const useCreateTodo = () => {
   const { isReady, isLoading, execute } = useAsyncState(createTodo, null, {
@@ -8,6 +9,6 @@ export const useCreateTodo = () => {
   return {
     isReady,
     isLoading,
-    execute: (...args: Parameters<typeof createTodo>) => execute(0, ...args),
+    execute: (todo: DraftTodo) => execute(0, todo),
   };
 };

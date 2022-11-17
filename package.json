@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.5.0",
+    "lodash": "^4.17.21",
     "uuid": "^9.0.0",
     "vue": "^3.2.41"
   },
@@ -20,6 +21,7 @@
     "@playwright/test": "^1.27.1",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/jsdom": "^20.0.0",
+    "@types/lodash": "^4.14.189",
     "@types/node": "^16.11.68",
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-vue": "^3.1.2",
