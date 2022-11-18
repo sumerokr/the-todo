@@ -22,12 +22,12 @@ export const apiService: ApiService = {
     // TODO: handle errors
     return JSON.parse(data ?? "[]") as Todo[];
   },
-  delete: async (todo) => {
+  delete: async (id) => {
     await delay();
     const data = localStorage.getItem(lsKey);
     // TODO: handle errors
     const todos = JSON.parse(data ?? "[]") as Todo[];
-    const newTodos = todos.filter((_todo) => _todo.id !== todo.id);
+    const newTodos = todos.filter((_todo) => _todo.id !== id);
     // TODO: handle errors
     localStorage.setItem(lsKey, JSON.stringify(newTodos));
   },

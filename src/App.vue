@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { Ref } from "vue";
 import { useCreateTodo } from "./composables/use-create-todo";
 import { useReadTodos } from "./composables/use-read-todos";
 import { useDeleteTodo } from "./composables/use-delete-todo";
@@ -25,9 +24,8 @@ const onSubmit = () => {
   title.value = "";
 };
 
-const onDelete = (todo: Todo) => {
-  console.log("onDelete todo", todo);
-  deleteTodo(todo);
+const onDelete = (id: Todo["id"]) => {
+  deleteTodo(id);
 };
 </script>
 
@@ -41,7 +39,10 @@ const onDelete = (todo: Todo) => {
     <ul v-if="isReadTodosReady && todos.length">
       <li v-for="todo of todos" :key="todo.id">
         {{ todo.title }}
-        <button :disabled="deletingIds.includes(todo)" @click="onDelete(todo)">
+        <button
+          :disabled="deletingIds.includes(todo.id)"
+          @click="onDelete(todo.id)"
+        >
           ✕
         </button>
       </li>

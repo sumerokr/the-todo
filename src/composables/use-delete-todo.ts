@@ -8,15 +8,15 @@ export const useDeleteTodo = () => {
   const { isReady, isLoading, execute } = useAsyncState(deleteTodo, null, {
     immediate: false,
   });
-  const deletingIds = ref<Todo[]>([]);
+  const deletingIds = ref<Todo["id"][]>([]);
   return {
     deletingIds,
     isReady,
     isLoading,
-    execute: async (todo: Todo) => {
-      deletingIds.value.push(todo);
-      await execute(0, todo);
-      deletingIds.value = without(deletingIds.value, todo);
+    execute: async (id: Todo["id"]) => {
+      deletingIds.value.push(id);
+      await execute(0, id);
+      deletingIds.value = without(deletingIds.value, id);
     },
   };
 };
