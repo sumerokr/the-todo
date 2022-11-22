@@ -18,4 +18,11 @@ export const storeService: StoreService = {
   delete: (id) => {
     todos.value = todos.value.filter((_todo) => _todo.id !== id);
   },
+  getById: (id) => {
+    return todos.value.find((todo) => todo.id === id);
+  },
+  update: (todo) => {
+    const index = todos.value.findIndex((_todo) => _todo.id === todo.id);
+    todos.value.splice(index, 1, todo);
+  },
 };

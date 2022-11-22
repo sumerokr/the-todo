@@ -17,3 +17,10 @@ export const createTodo = (draft: {
     isComplete: false,
   };
 };
+
+export const toggleTodo = (todo: Todo): Todo => {
+  return {
+    ...todo,
+    isComplete: !todo.isComplete,
+  };
+};

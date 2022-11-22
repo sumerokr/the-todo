@@ -31,4 +31,14 @@ export const apiService: ApiService = {
     // TODO: handle errors
     localStorage.setItem(lsKey, JSON.stringify(newTodos));
   },
+  update: async (todo) => {
+    await delay();
+    const data = localStorage.getItem(lsKey);
+    // TODO: handle errors
+    const todos = JSON.parse(data ?? "[]") as Todo[];
+    // TODO: handle errors
+    const index = todos.findIndex((_todo) => _todo.id === todo.id);
+    todos.splice(index, 1, todo);
+    localStorage.setItem(lsKey, JSON.stringify(todos));
+  },
 };
