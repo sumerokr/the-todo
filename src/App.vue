@@ -4,7 +4,6 @@ import { useCreateTodo } from "./composables/use-create-todo";
 import { useReadTodos } from "./composables/use-read-todos";
 import { useDeleteTodo } from "./composables/use-delete-todo";
 import { useToggleTodo } from "./composables/use-toggle-todo";
-import type { Todo } from "./domain/Todo";
 
 const {
   todos,

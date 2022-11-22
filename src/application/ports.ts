@@ -1,18 +1,20 @@
-import type { Todo } from "../domain/Todo";
+import type { Todo, InputData } from "../domain/Todo";
+
+export type CreateTodoUC = (inputData: InputData) => void;
 
 export interface ApiService {
-  create: (todo: Todo) => Promise<void>;
+  save: (todo: Todo) => Promise<void>;
   read: () => Promise<Todo[]>;
-  delete: (id: Todo["id"]) => Promise<void>;
   update: (todo: Todo) => Promise<void>;
+  delete: (id: Todo["id"]) => Promise<void>;
 }
 
 export interface StoreService {
-  create: (todo: Todo) => void;
+  save: (todo: Todo) => void;
   set: (todos: Todo[]) => void;
   delete: (id: Todo["id"]) => void;
-  getById: (id: Todo["id"]) => Todo | undefined;
   update: (todo: Todo) => void;
+  getById: (id: Todo["id"]) => Todo | undefined;
 }
 
 export interface NotificationService {
