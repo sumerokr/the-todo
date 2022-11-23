@@ -1,6 +1,6 @@
 import { useAsyncState } from "@vueuse/core";
-import { readTodos } from "@/application/read-todos";
-import { todos } from "@/services/store-service";
+import { readTodos } from "@/application/get-todos";
+import { todos } from "@/services/store-service-composition";
 
 export const useReadTodos = () => {
   const { isReady, isLoading, execute } = useAsyncState(readTodos, null, {

@@ -14,10 +14,10 @@ export const useToggleTodo = () => {
     togglingIds,
     isReady,
     isLoading,
-    execute: async (id: Todo["id"]) => {
-      togglingIds.value.push(id);
-      await execute(0, id);
-      togglingIds.value = without(togglingIds.value, id);
+    execute: async (...args: Parameters<typeof toggleTodo>) => {
+      togglingIds.value.push(args[0]);
+      await execute(0, ...args);
+      togglingIds.value = without(togglingIds.value, args[0]);
     },
   };
 };

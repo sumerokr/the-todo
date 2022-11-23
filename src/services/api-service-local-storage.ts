@@ -7,7 +7,7 @@ const delay = (ms: number = Math.random() * 1000) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const apiService: ApiService = {
-  create: async (todo) => {
+  save: async (todo) => {
     await delay();
     const data = localStorage.getItem(lsKey);
     // TODO: handle errors
@@ -16,7 +16,7 @@ export const apiService: ApiService = {
     // TODO: handle errors
     localStorage.setItem(lsKey, JSON.stringify(todos));
   },
-  read: async () => {
+  getAll: async () => {
     await delay();
     const data = localStorage.getItem(lsKey);
     // TODO: handle errors

@@ -9,7 +9,7 @@ const roTodos = readonly(todos);
 export { roTodos as todos };
 
 export const storeService: StoreService = {
-  create: (todo) => {
+  save: (todo) => {
     todos.value.push(todo);
   },
   set: (_todos) => {
@@ -22,6 +22,7 @@ export const storeService: StoreService = {
     return todos.value.find((todo) => todo.id === id);
   },
   update: (todo) => {
+    // TODO: the only one that mutates in place
     const index = todos.value.findIndex((_todo) => _todo.id === todo.id);
     todos.value.splice(index, 1, todo);
   },

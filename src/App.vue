@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useCreateTodo } from "./composables/use-create-todo";
+import { useSaveTodo } from "./composables/use-save-todo";
 import { useReadTodos } from "./composables/use-read-todos";
 import { useDeleteTodo } from "./composables/use-delete-todo";
 import { useToggleTodo } from "./composables/use-toggle-todo";
@@ -13,7 +13,7 @@ const {
 } = useReadTodos();
 readTodos();
 
-const { isLoading: isCreateTodoLoading, execute: createTodo } = useCreateTodo();
+const { isLoading: isSaveTodoLoading, execute: saveTodo } = useSaveTodo();
 
 const { execute: deleteTodo, deletingIds } = useDeleteTodo();
 
@@ -22,7 +22,7 @@ const { execute: toggleTodo, togglingIds } = useToggleTodo();
 const title = ref("");
 
 const onSubmit = () => {
-  createTodo({ title: title.value });
+  saveTodo(title.value);
   title.value = "";
 };
 </script>
@@ -31,7 +31,7 @@ const onSubmit = () => {
   <div>
     <form @submit.prevent="onSubmit">
       <input v-model="title" type="text" />
-      <button type="submit" :disabled="isCreateTodoLoading">add</button>
+      <button type="submit" :disabled="isSaveTodoLoading">add</button>
     </form>
 
     <ul v-if="isReadTodosReady && todos.length">

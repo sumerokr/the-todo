@@ -5,8 +5,6 @@ export interface Todo {
   isComplete: boolean;
 }
 
-export type InputData = Pick<Todo, "title">;
-
 export type DraftTodo = Pick<Todo, "id" | "title" | "createdAt">;
 
 export const createTodo = (draft: DraftTodo): Todo => {

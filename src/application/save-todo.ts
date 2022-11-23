@@ -1,11 +1,11 @@
 import { createTodo as _createTodo } from "@/domain/Todo";
-import type { CreateTodoUC } from "@/application/ports";
-import { apiService } from "@/services/api-service";
-import { storeService } from "@/services/store-service";
+import type { SaveTodoUC } from "@/application/ports";
+import { apiService } from "@/services/api-service-local-storage";
+import { storeService } from "@/services/store-service-composition";
 import { notificationService } from "@/services/notification-service";
 import { v4 as uuidv4 } from "uuid";
 
-export const createTodo: CreateTodoUC = async ({ title }) => {
+export const saveTodo: SaveTodoUC = async (title) => {
   const todo = _createTodo({
     id: uuidv4(),
     title,
@@ -14,5 +14,5 @@ export const createTodo: CreateTodoUC = async ({ title }) => {
 
   await apiService.save(todo);
   storeService.save(todo);
-  notificationService.notify("saved");
+  notificationService.notify("todo saved");
 };

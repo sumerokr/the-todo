@@ -13,10 +13,10 @@ export const useDeleteTodo = () => {
     deletingIds,
     isReady,
     isLoading,
-    execute: async (id: Todo["id"]) => {
-      deletingIds.value.push(id);
-      await execute(0, id);
-      deletingIds.value = without(deletingIds.value, id);
+    execute: async (...args: Parameters<typeof deleteTodo>) => {
+      deletingIds.value.push(args[0]);
+      await execute(0, ...args);
+      deletingIds.value = without(deletingIds.value, args[0]);
     },
   };
 };

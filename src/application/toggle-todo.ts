@@ -1,7 +1,7 @@
 import type { Todo } from "@/domain/Todo";
 import { toggleTodo as _toggleTodo } from "@/domain/Todo";
-import { apiService } from "@/services/api-service";
-import { storeService } from "@/services/store-service";
+import { apiService } from "@/services/api-service-local-storage";
+import { storeService } from "@/services/store-service-composition";
 import { notificationService } from "@/services/notification-service";
 
 export const toggleTodo = async (id: Todo["id"]) => {
