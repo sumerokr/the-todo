@@ -1,6 +1,6 @@
 import type { Mock } from "vitest";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { deleteTodo } from "./delete-todo";
+import { getTodos } from "./get-todos";
 import { apiService } from "@/services/api-service-local-storage";
 import { storeService } from "@/services/store-service-composition";
 import { notificationService } from "@/services/notification-service";
@@ -9,57 +9,58 @@ vi.mock("@/services/api-service-local-storage");
 vi.mock("@/services/store-service-composition");
 vi.mock("@/services/notification-service");
 
-describe("deleteTodo", () => {
+describe("getTodos", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it("calls apiService", async () => {
-    await deleteTodo("test-id");
+    await getTodos();
 
-    expect(apiService.delete).toHaveBeenCalledWith("test-id");
+    expect(apiService.getAll).toHaveBeenCalled();
   });
 
   describe("API returns OK", () => {
     it("calls storeService", async () => {
-      await deleteTodo("test-id");
+      (apiService.getAll as Mock).mockReturnValueOnce([]);
+      await getTodos();
 
-      expect(storeService.delete).toHaveBeenCalledWith("test-id");
+      expect(storeService.set).toHaveBeenCalledWith(expect.arrayContaining([]));
     });
 
     it("calls notificationService", async () => {
-      await deleteTodo("test-id");
+      await getTodos();
 
-      expect(notificationService.notify).toHaveBeenCalledWith("deleted");
+      expect(notificationService.notify).toHaveBeenCalledWith("received");
     });
   });
 
   describe("API returns Error", () => {
     it("doesn't call storeService", async () => {
-      (apiService.delete as Mock).mockRejectedValueOnce(
+      (apiService.getAll as Mock).mockRejectedValueOnce(
         new Error("Async error")
       );
 
-      await deleteTodo("test-id");
+      await getTodos();
 
-      expect(storeService.delete).not.toHaveBeenCalled();
+      expect(storeService.set).not.toHaveBeenCalled();
     });
 
     it("calls notificationService with error", async () => {
       const assertedError = "Async error";
-      (apiService.delete as Mock).mockRejectedValueOnce(
+      (apiService.getAll as Mock).mockRejectedValueOnce(
         new Error(assertedError)
       );
 
-      await deleteTodo("test-id");
+      await getTodos();
 
       expect(notificationService.notify).toHaveBeenCalledWith(assertedError);
     });
 
     it("calls notificationService with unknown error", async () => {
-      (apiService.delete as Mock).mockRejectedValueOnce("whatever");
+      (apiService.getAll as Mock).mockRejectedValueOnce("whatever");
 
-      await deleteTodo("test-id");
+      await getTodos();
 
       expect(notificationService.notify).toHaveBeenCalledWith("unknown error");
     });

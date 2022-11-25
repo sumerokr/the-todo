@@ -9,6 +9,10 @@ export const deleteTodo = async (id: Todo["id"]) => {
     storeService.delete(id);
     notificationService.notify("deleted");
   } catch (error) {
-    notificationService.notify("error");
+    if (error instanceof Error) {
+      notificationService.notify(error.message);
+    } else {
+      notificationService.notify("unknown error");
+    }
   }
 };
