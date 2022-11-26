@@ -6,13 +6,21 @@ import { notificationService } from "@/services/notification-service";
 import { v4 as uuidv4 } from "uuid";
 
 export const saveTodo: SaveTodoUC = async (title) => {
-  const todo = _createTodo({
-    id: uuidv4(),
-    title,
-    createdAt: new Date().toISOString(),
-  });
+  try {
+    const todo = _createTodo({
+      id: uuidv4(),
+      title,
+      createdAt: new Date().toISOString(),
+    });
 
-  await apiService.save(todo);
-  storeService.save(todo);
-  notificationService.notify("todo saved");
+    await apiService.save(todo);
+    storeService.save(todo);
+    notificationService.notify("saved");
+  } catch (error) {
+    if (error instanceof Error) {
+      notificationService.notify(error.message);
+    } else {
+      notificationService.notify("unknown error");
+    }
+  }
 };
