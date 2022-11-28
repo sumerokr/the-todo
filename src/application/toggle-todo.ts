@@ -10,7 +10,16 @@ export const toggleTodo = async (id: Todo["id"]) => {
     return;
   }
   const toggledTodo = _toggleTodo(todo);
-  await apiService.update(toggledTodo);
-  storeService.update(toggledTodo);
-  notificationService.notify("toggled");
+
+  try {
+    await apiService.update(toggledTodo);
+    storeService.update(toggledTodo);
+    notificationService.notify("toggled");
+  } catch (error) {
+    if (error instanceof Error) {
+      notificationService.notify(error.message);
+    } else {
+      notificationService.notify("unknown error");
+    }
+  }
 };
