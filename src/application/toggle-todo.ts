@@ -1,10 +1,10 @@
-import type { Todo } from "@/domain/Todo";
+import type { ToggleTodoUC } from "@/application/ports";
 import { toggleTodo as _toggleTodo } from "@/domain/Todo";
 import { apiService } from "@/services/api-service-local-storage";
 import { storeService } from "@/services/store-service-composition";
 import { notificationService } from "@/services/notification-service";
 
-export const toggleTodo = async (id: Todo["id"]) => {
+export const toggleTodo: ToggleTodoUC = async (id) => {
   const todo = storeService.getById(id);
   if (!todo) {
     return;
@@ -16,10 +16,9 @@ export const toggleTodo = async (id: Todo["id"]) => {
     storeService.update(toggledTodo);
     notificationService.notify("toggled");
   } catch (error) {
-    if (error instanceof Error) {
-      notificationService.notify(error.message);
-    } else {
-      notificationService.notify("unknown error");
-    }
+    const message = (() => {
+      return error instanceof Error ? error.message : "unknown error";
+    })();
+    notificationService.notify(message);
   }
 };

@@ -1,9 +1,10 @@
 import type { Todo } from "../domain/Todo";
 
 export type SaveTodoUC = (title: Todo["title"]) => Promise<void>;
-export type getTodosUC = () => Promise<void>;
-export type updateTodoUC = (todo: Todo) => Promise<void>;
-export type deleteTodoUC = (id: Todo["id"]) => Promise<void>;
+export type GetTodosUC = () => Promise<void>;
+export type UpdateTodoUC = (todo: Todo) => Promise<void>;
+export type DeleteTodoUC = (id: Todo["id"]) => Promise<void>;
+export type ToggleTodoUC = (id: Todo["id"]) => Promise<void>;
 
 export interface ApiService {
   save: (todo: Todo) => Promise<void>;

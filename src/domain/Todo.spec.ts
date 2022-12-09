@@ -4,7 +4,7 @@ import type { Todo, DraftTodo } from "./Todo";
 import { createTodo, toggleTodo } from "./Todo";
 
 describe("createTodo", () => {
-  it("adds `isComplete` flag", () => {
+  it("adds `isComplete` flag that is `false` by default", () => {
     const draft: DraftTodo = {
       id: "123",
       title: "test",
