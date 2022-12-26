@@ -1,22 +1,8 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { useDeleteTodo } from "./use-delete-todo";
+import { deleteTodo } from "@/application/delete-todo";
 
-// export const useDeleteTodo = () => {
-//   const { isReady, isLoading, execute } = useAsyncState(deleteTodo, null, {
-//     immediate: false,
-//   });
-//   const deletingIds = ref<Todo["id"][]>([]);
-//   return {
-//     deletingIds,
-//     isReady,
-//     isLoading,
-//     execute: async (...args: Parameters<typeof deleteTodo>) => {
-//       deletingIds.value.push(args[0]);
-//       await execute(0, ...args);
-//       deletingIds.value = without(deletingIds.value, args[0]);
-//     },
-//   };
-// };
+vi.mock("@/application/delete-todo");
 
 describe("useDeleteTodo", () => {
   it("has default state", () => {
@@ -25,6 +11,7 @@ describe("useDeleteTodo", () => {
     expect(deletingIds.value).toEqual([]);
     expect(isReady.value).toBe(false);
     expect(isLoading.value).toBe(false);
+    expect(deleteTodo).not.toHaveBeenCalled();
   });
 
   it("reacts to execute", async () => {
@@ -34,6 +21,8 @@ describe("useDeleteTodo", () => {
     expect(deletingIds.value).toEqual(["test-id"]);
     expect(isReady.value).toBe(false);
     expect(isLoading.value).toBe(true);
+    // TODO: extract assertion
+    expect(deleteTodo).toHaveBeenLastCalledWith("test-id");
     await promise;
     expect(deletingIds.value).toEqual([]);
     expect(isReady.value).toBe(true);

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSaveTodo } from "./composables/use-save-todo";
-import { useReadTodos } from "./composables/use-read-todos";
+import { useGetTodos } from "./composables/use-get-todos";
 import { useDeleteTodo } from "./composables/use-delete-todo";
 import { useToggleTodo } from "./composables/use-toggle-todo";
 
@@ -10,7 +10,7 @@ const {
   isReady: isReadTodosReady,
   isLoading: isReadTodosLoading,
   execute: readTodos,
-} = useReadTodos();
+} = useGetTodos();
 readTodos();
 
 const { isLoading: isSaveTodoLoading, execute: saveTodo } = useSaveTodo();
