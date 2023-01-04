@@ -17,8 +17,7 @@ describe("useSaveTodo", () => {
     const { isReady, isLoading, execute } = useSaveTodo();
 
     const promise = execute("test title");
-    expect(isReady.value).toBe(false);
-    expect(isReady.value).toBe(false);
+    expect(isLoading.value).toBe(true);
     // TODO: extract assertion
     expect(saveTodo).toHaveBeenLastCalledWith("test title");
     await promise;

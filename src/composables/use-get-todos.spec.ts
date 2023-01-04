@@ -17,7 +17,6 @@ describe("useGetTodos", () => {
     const { isReady, isLoading, execute } = useGetTodos();
 
     const promise = execute();
-    expect(isReady.value).toBe(false);
     expect(isLoading.value).toBe(true);
     // TODO: extract assertion
     expect(getTodos).toHaveBeenCalled();

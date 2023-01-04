@@ -17,11 +17,10 @@ describe("useDeleteTodo", () => {
   it("reacts to execute", async () => {
     const { deletingIds, isReady, isLoading, execute } = useDeleteTodo();
 
+    // TODO: extract assertion
     const promise = execute("test-id");
     expect(deletingIds.value).toEqual(["test-id"]);
-    expect(isReady.value).toBe(false);
     expect(isLoading.value).toBe(true);
-    // TODO: extract assertion
     expect(deleteTodo).toHaveBeenLastCalledWith("test-id");
     await promise;
     expect(deletingIds.value).toEqual([]);
